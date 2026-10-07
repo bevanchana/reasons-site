@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reasons I Love You</title>
+<meta name="description" content="Reasons I love you, each one paired with a verse from the Song of Solomon.">
+<meta name="theme-color" content="#0b1a3a">
+<meta property="og:title" content="Reasons I Love You">
+<meta property="og:description" content="Reasons I love you, each one paired with a verse from the Song of Solomon.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23e0b56a' d='M16 28s-11-6.6-11-15A6 6 0 0 1 16 9a6 6 0 0 1 11 4c0 8.4-11 15-11 15z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400;1,6..96,500&family=Figtree:wght@400;500;600&display=swap">
+<link rel="preload" as="image" href="img/night.jpg" fetchpriority="high">
+<style>
+/* Layout: one stage. Her photo on the left, the reason and its verse on the right,
+   a strip of all the photos underneath as the way to move between them. Single dark look by choice. */
+:root{
+  color-scheme: dark;
+  --wine:#0b1a3a;        /* pomegranate-skin ground */
+  --wine-2:#12264f;      /* raised surface */
+  --line:#2b4580;        /* hairlines */
+  --cream:#f2f5fc;       /* main text */
+  --muted:#a9b8d8;       /* secondary text */
+  --gold:#e0b56a;        /* gold: labels, verse marks */
+  --hibiscus:#6fb1ff;    /* the one loud color: the button */
+  --ink:#06122b;
+  --display:"Bodoni Moda","Didot","Bodoni MT",Georgia,serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;min-height:100dvh;background:var(--wine);color:var(--cream);font-family:var(--body);font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(90rem 40rem at 85% -10%, #1d3f8a 0%, transparent 60%);}
+img{max-width:100%}
+::selection{background:var(--gold);color:var(--ink)}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:max(20px,env(safe-area-inset-left));padding-block:28px 56px;display:flex;flex-direction:column;gap:28px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px}
+h1{font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(2rem,5vw,3.2rem);line-height:1.05;margin:0;text-wrap:balance}
+.label{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0}
+.stage{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:36px;align-items:center}
+.photo{position:relative;aspect-ratio:4/5;max-width:100%;border-radius:999px 999px 6px 6px;overflow:hidden;background:var(--wine-2);border:1px solid var(--line);touch-action:pan-y;
+  box-shadow:0 30px 80px -30px rgba(0,0,0,.7)}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .45s var(--ease),transform 1.2s var(--ease);transform:scale(1)}
+.photo img.out{opacity:0;transform:scale(1.03)}
+.card{min-width:0;display:flex;flex-direction:column;gap:20px}
+.reason{font-family:var(--display);font-size:clamp(1.6rem,3.6vw,2.5rem);line-height:1.18;font-weight:400;margin:0;text-wrap:balance}
+blockquote{margin:0;padding-left:18px;border-left:1px solid var(--gold);display:flex;flex-direction:column;gap:8px;max-width:34rem}
+blockquote p{margin:0;font-family:var(--display);font-style:italic;font-size:1.15rem;line-height:1.5;color:var(--cream);text-wrap:pretty}
+cite{font-style:normal;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+#swap{display:flex;flex-direction:column;gap:20px;min-height:14rem}
+.fade{animation:rise .5s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.go{background:var(--hibiscus);color:var(--ink);border:0;border-radius:999px;padding:13px 24px;font-weight:600;font-size:1rem;transition:filter .2s,transform .15s}
+.go:hover{filter:brightness(1.08)}
+.go:active,.ghost:active{transform:scale(.97)}
+.ghost{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:999px;padding:12px 20px;transition:border-color .2s,opacity .2s,transform .15s}
+.ghost:hover{border-color:var(--gold)}
+.ghost:disabled{opacity:.35;cursor:default;border-color:var(--line)}
+.icon{padding:12px 16px;line-height:1}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.meta{display:flex;flex-direction:column;gap:8px}
+.count{color:var(--muted);font-size:.875rem;font-variant-numeric:tabular-nums}
+.bar{height:2px;background:var(--line);border-radius:2px;overflow:hidden;max-width:34rem}
+.bar span{display:block;height:100%;width:0;background:var(--gold);transition:width .5s var(--ease)}
+.hint{color:var(--muted);font-size:.8rem;margin:0}
+.hint kbd{font:inherit;border:1px solid var(--line);border-radius:4px;padding:0 5px}
+.strip{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:10px}
+.strip button{padding:0;border:1px solid var(--line);background:var(--wine-2);border-radius:4px;overflow:hidden;aspect-ratio:1;opacity:.55;transition:opacity .2s,border-color .2s}
+.strip button img{width:100%;height:100%;object-fit:cover;display:block}
+.strip button:hover{opacity:.85}
+.strip button[aria-pressed="true"]{opacity:1;border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:720px){
+  .stage{grid-template-columns:minmax(0,1fr);gap:24px}
+  .photo{max-width:340px;margin-inline:auto;width:100%}
+  #swap{min-height:0}
+  .strip{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+  .hint{display:none}
+}
+@media (hover:none){.hint{display:none}}
+@media (prefers-reduced-motion:reduce){
+  .fade{animation:none}
+  .photo img,.bar span{transition:none}
+  .photo img.out{transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>Reasons I love you</h1>
+    <p class="label">With the Song of Solomon</p>
+  </header>
+
+  <main class="stage">
+    <div class="photo" id="photoBox">
+      <img id="photo" src="img/night.jpg" data-pid="night" alt="Her in a black dress on a city plaza at night"
+           width="800" height="1000" decoding="async" fetchpriority="high" style="object-position:50% 20%">
+    </div>
+    <section class="card">
+      <p class="label" id="num">Reason 1 of 29</p>
+      <div id="swap" class="fade" aria-live="polite" aria-atomic="true">
+        <p class="reason" id="reason"></p>
+        <blockquote><p id="verse"></p><cite id="ref"></cite></blockquote>
+      </div>
+      <div class="actions">
+        <button class="ghost icon" id="prev" type="button" aria-label="Previous reason" disabled>&larr;</button>
+        <button class="go" id="next" type="button">Another reason</button>
+        <button class="ghost" id="copy" type="button">Copy</button>
+      </div>
+      <div class="meta">
+        <div class="bar" aria-hidden="true"><span id="bar"></span></div>
+        <span class="count" id="count"></span>
+        <p class="hint">Tip: use <kbd>&larr;</kbd> <kbd>&rarr;</kbd> to move between reasons.</p>
+      </div>
+    </section>
+  </main>
+
+  <nav class="strip" id="strip" aria-label="Choose a photo"></nav>
+
+  <footer>Verses are from the Song of Solomon, King James Version.</footer>
+</div>
+
+<script>
+const PHOTOS = [
+  {id:"night", pos:"50% 20%", alt:"Her in a black dress on a city plaza at night"},
+  {id:"shore", pos:"50% 30%", alt:"Her on the beach in a sun hat"},
+  {id:"hibiscus", pos:"50% 15%", alt:"Her in an orange floral dress at sunset"},
+  {id:"scarlet", pos:"50% 10%", alt:"Her in red lace at a night festival"},
+  {id:"gold", pos:"60% 30%", alt:"Her close up in a yellow top"},
+  {id:"mirror", pos:"50% 45%", alt:"Her mirror photo in a yellow outfit"},
+  {id:"seal", pos:"45% 60%", alt:"The mark she left on my wrist"},
+  {id:"rest", pos:"25% 30%", alt:"Her asleep under a blanket"},
+  {id:"ride", pos:"50% 40%", alt:"Her dozing in the car"},
+  {id:"us", pos:"50% 50%", alt:"The two of us in the car"}
+];
+const R = [
+  ["night","Because you walk into the night and the night gets jealous.","Who is she that looketh forth as the morning, fair as the moon, clear as the sun, and terrible as an army with banners?","6:10"],
+  ["night","Because even the way you stand is a work of art.","How beautiful are thy feet with shoes, O prince's daughter! the joints of thy thighs are like jewels, the work of the hands of a cunning workman.","7:1"],
+  ["night","Because gold looks better once it is on you.","Thy cheeks are comely with rows of jewels, thy neck with chains of gold.","1:10"],
+  ["night","Because one look from you and I was done.","Thou hast ravished my heart, my sister, my spouse; thou hast ravished my heart with one of thine eyes, with one chain of thy neck.","4:9"],
+  ["shore","Because an entire ocean could not put this out.","Many waters cannot quench love, neither can the floods drown it.","8:7"],
+  ["shore","Because wherever you are is where I want to be.","Rise up, my love, my fair one, and come away.","2:10"],
+  ["shore","Because being with you is my favorite kind of joy.","How fair and how pleasant art thou, O love, for delights!","7:6"],
+  ["shore","Because I am yours, and I like how that sounds.","I am my beloved's, and my beloved is mine: he feedeth among the lilies.","6:3"],
+  ["hibiscus","Because you are the flower in every field you stand in.","As the lily among thorns, so is my love among the daughters.","2:2"],
+  ["hibiscus","Because every season with you feels like spring.","The flowers appear on the earth; the time of the singing of birds is come.","2:12"],
+  ["hibiscus","Because your love is better than anything I could pour in a glass.","How fair is thy love, my sister, my spouse! how much better is thy love than wine!","4:10"],
+  ["hibiscus","Because I have looked, and there is nothing I would change.","Thou art all fair, my love; there is no spot in thee.","4:7"],
+  ["scarlet","Because your smile says more than most people's speeches.","Thy lips are like a thread of scarlet, and thy speech is comely.","4:3"],
+  ["scarlet","Because you are lovely and a little bit dangerous.","Thou art beautiful, O my love, as Tirzah, comely as Jerusalem, terrible as an army with banners.","6:4"],
+  ["scarlet","Because in a crowd of thousands, there is still only you.","My dove, my undefiled is but one.","6:9"],
+  ["scarlet","Because anywhere with you turns into a celebration.","He brought me to the banqueting house, and his banner over me was love.","2:4"],
+  ["seal","Because you left your mark on me, and I kept it.","Set me as a seal upon thine heart, as a seal upon thine arm: for love is strong as death.","8:6"],
+  ["mirror","Because one look at you and I lose the argument.","Turn away thine eyes from me, for they have overcome me.","6:5"],
+  ["mirror","Because you know exactly what you are doing.","Behold, thou art fair, my love; behold, thou art fair.","4:1"],
+  ["rest","Because I would guard your sleep from the whole world.","I charge you, O ye daughters of Jerusalem, by the roes, and by the hinds of the field, that ye stir not up, nor awake my love, till he please.","2:7"],
+  ["rest","Because even asleep, you have my whole heart.","I sleep, but my heart waketh.","5:2"],
+  ["ride","Because you fall asleep on every drive and I love it every time.","Who is this that cometh up from the wilderness, leaning upon her beloved?","8:5"],
+  ["ride","Because the quiet moments with you are my favorite ones.","Behold, thou art fair, my beloved, yea, pleasant.","1:16"],
+  ["us","Because you are mine and I am yours.","My beloved is mine, and I am his: he feedeth among the lilies.","2:16"],
+  ["us","Because I would follow you anywhere.","Draw me, we will run after thee.","1:4"],
+  ["gold","Because your eyes are the calmest place I know.","Behold, thou art fair, my love; behold, thou art fair; thou hast doves' eyes.","1:15"],
+  ["gold","Because I never get tired of your face or your voice.","Let me see thy countenance, let me hear thy voice; for sweet is thy voice, and thy countenance is comely.","2:14"],
+  ["gold","Because every word from you is sweet.","Thy lips, O my spouse, drop as the honeycomb: honey and milk are under thy tongue.","4:11"],
+  ["gold","Because I found you, and I am not letting go.","I found him whom my soul loveth: I held him, and would not let him go.","3:4"]
+];
+const $ = id => document.getElementById(id);
+const N = R.length;
+let order = [], hist = [], hpos = -1, cur = -1, copyTimer;
+const seen = new Set();
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+// Thumbnail strip: one button per photo; picking one shows a reason that belongs to it.
+$("strip").innerHTML = PHOTOS.map(p =>
+  `<button type="button" data-pid="${p.id}" aria-pressed="false" aria-label="Show a reason for: ${p.alt}">` +
+  `<img src="img/${p.id}.jpg" alt="" loading="lazy" decoding="async" style="object-position:${p.pos}"></button>`
+).join("");
+$("strip").addEventListener("click", e => { const b = e.target.closest("button"); if(b) byPhoto(b.dataset.pid); });
+
+function setPhoto(p){
+  const img = $("photo");
+  if(img.dataset.pid === p.id) return;
+  img.dataset.pid = p.id;
+  img.classList.add("out");
+  const src = "img/" + p.id + ".jpg";
+  const pre = new Image(); pre.src = src;
+  const done = () => {
+    if(img.dataset.pid !== p.id) return;   // a newer photo was requested meanwhile
+    img.src = src; img.alt = p.alt; img.style.objectPosition = p.pos;
+    requestAnimationFrame(() => img.classList.remove("out"));
+  };
+  (pre.decode ? pre.decode() : Promise.resolve()).then(done, done);  // on error still un-hide
+}
+
+function render(i){
+  cur = i; seen.add(i);
+  const [pid, reason, verse, ref] = R[i];
+  setPhoto(PHOTOS.find(x => x.id === pid));
+  $("num").textContent = "Reason " + (i+1) + " of " + N;
+  $("reason").textContent = reason;
+  $("verse").textContent = "“" + verse + "”";
+  $("ref").textContent = "Song of Solomon " + ref;
+  $("count").textContent = seen.size < N ? seen.size + " of " + N + " read, and counting" : "All " + N + " read. More are on the way.";
+  $("bar").style.width = (seen.size / N * 100) + "%";
+  $("prev").disabled = hpos <= 0;
+  for(const b of $("strip").children) b.setAttribute("aria-pressed", b.dataset.pid === pid);
+  const s = $("swap"); s.classList.remove("fade"); void s.offsetWidth; s.classList.add("fade");
+  clearTimeout(copyTimer); $("copy").textContent = "Copy";
+  history.replaceState(null, "", "#" + (i+1));
+}
+function go(i){
+  hist = hist.slice(0, hpos+1); hist.push(i); hpos = hist.length - 1;
+  order = order.filter(x => x !== i);
+  render(i);
+}
+function draw(){
+  if(!order.length) order = shuffle(R.map((r,i)=>i)).filter(i => i !== cur);
+  return order.pop();
+}
+function next(){ if(hpos < hist.length-1){ hpos++; render(hist[hpos]); } else go(draw()); }
+function prev(){ if(hpos > 0){ hpos--; render(hist[hpos]); } }
+function byPhoto(pid){
+  const pool = R.map((r,i)=>i).filter(i => R[i][0] === pid && i !== cur);
+  if(pool.length) go(pool[Math.floor(Math.random()*pool.length)]);
+}
+function fromHash(){
+  const n = parseInt(location.hash.slice(1), 10);
+  return n >= 1 && n <= N ? n - 1 : -1;
+}
+
+$("next").addEventListener("click", next);
+$("prev").addEventListener("click", prev);
+$("copy").addEventListener("click", () => {
+  const [ ,reason,verse,ref] = R[cur];
+  const t = reason + "\n\n“" + verse + "”\nSong of Solomon " + ref + "\n\n" + location.href;
+  const btn = $("copy");
+  (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject())
+    .then(() => { btn.textContent = "Copied"; }, () => { btn.textContent = "Copy failed"; })
+    .then(() => { clearTimeout(copyTimer); copyTimer = setTimeout(() => btn.textContent = "Copy", 2000); });
+});
+document.addEventListener("keydown", e => {
+  if(e.altKey || e.ctrlKey || e.metaKey) return;
+  if(e.key === "ArrowRight"){ e.preventDefault(); next(); }
+  else if(e.key === "ArrowLeft"){ e.preventDefault(); prev(); }
+});
+// Swipe on the photo: left for the next reason, right to go back.
+let sx = null, sy = 0;
+$("photoBox").addEventListener("touchstart", e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, {passive:true});
+$("photoBox").addEventListener("touchend", e => {
+  if(sx === null) return;
+  const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; sx = null;
+  if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) dx < 0 ? next() : prev();
+});
+window.addEventListener("hashchange", () => { const i = fromHash(); if(i >= 0 && i !== cur) go(i); });
+
+const start = fromHash();
+go(start >= 0 ? start : 0);
+</script>
+
+</body>
+</html>

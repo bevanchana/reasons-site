@@ -71,24 +71,32 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 .bar span{display:block;height:100%;width:0;background:var(--gold);transition:width .5s var(--ease)}
 .hint{color:var(--muted);font-size:.8rem;margin:0}
 .hint kbd{font:inherit;border:1px solid var(--line);border-radius:4px;padding:0 5px}
-.strip{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:10px}
+.strip{display:grid;grid-template-columns:repeat(var(--n,9),minmax(0,1fr));gap:10px}
 .strip button{padding:0;border:1px solid var(--line);background:var(--wine-2);border-radius:4px;overflow:hidden;aspect-ratio:1;opacity:.55;transition:opacity .2s,border-color .2s}
 .strip button img{width:100%;height:100%;object-fit:cover;display:block}
 .strip button:hover{opacity:.85}
 .strip button[aria-pressed="true"]{opacity:1;border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
-footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:16px}
+/* Closing heart: same gold hairline + blue glow as the rest of the page, beats gently. */
+.love{position:relative;display:flex;justify-content:center;padding-block:48px 8px;margin-top:12px;border-top:1px solid var(--line)}
+.love::before{content:"";position:absolute;inset:10% 15% 0;background:radial-gradient(closest-side,rgba(111,177,255,.22),transparent);filter:blur(20px);pointer-events:none}
+.love svg{position:relative;width:min(440px,82vw);height:auto;overflow:visible;transform-origin:50% 55%;animation:beat 2.6s ease-in-out infinite}
+.love text{font-family:var(--display);font-style:italic;font-weight:400;fill:var(--cream)}
+@keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.04)}24%{transform:scale(.99)}36%{transform:scale(1.03)}50%{transform:scale(1)}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media (max-width:720px){
   .stage{grid-template-columns:minmax(0,1fr);gap:24px}
   .photo{max-width:340px;margin-inline:auto;width:100%}
   #swap{min-height:0}
-  .strip{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+  .strip{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:68px;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:2px}
+  .strip::-webkit-scrollbar{display:none}
+  .strip button{scroll-snap-align:start}
   .hint{display:none}
 }
 @media (hover:none){.hint{display:none}}
 @media (prefers-reduced-motion:reduce){
   .fade{animation:none}
   .photo img,.bar span{transition:none}
+  .love svg{animation:none}
   .photo img.out{transform:none}
 }
 </style>
@@ -127,7 +135,26 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
 
   <nav class="strip" id="strip" aria-label="Choose a photo"></nav>
 
-  <footer>Verses are from the Song of Solomon, King James Version.</footer>
+  <footer class="love">
+    <svg viewBox="0 0 100 90" role="img" aria-label="I love you">
+      <defs>
+        <linearGradient id="heartFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#1d3f8a"/>
+          <stop offset="1" stop-color="#0b1a3a"/>
+        </linearGradient>
+        <linearGradient id="heartLine" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#f3d49b"/>
+          <stop offset=".5" stop-color="#e0b56a"/>
+          <stop offset="1" stop-color="#9c7434"/>
+        </linearGradient>
+      </defs>
+      <path d="M50 84C50 84 7 58 7 31C7 16 18 7 30 7C39 7 46 12 50 20C54 12 61 7 70 7C82 7 93 16 93 31C93 58 50 84 50 84Z"
+            fill="url(#heartFill)" stroke="url(#heartLine)" stroke-width=".8"/>
+      <path d="M50 78C50 78 12 55 12 31.5C12 19 21 12 30.5 12" fill="none" stroke="#e0b56a" stroke-opacity=".35" stroke-width=".35"/>
+      <text x="50" y="39" text-anchor="middle" font-size="12.5">I love</text>
+      <text x="50" y="54" text-anchor="middle" font-size="12.5">you</text>
+    </svg>
+  </footer>
 </div>
 
 <script>
@@ -138,7 +165,6 @@ const PHOTOS = [
   {id:"scarlet", pos:"50% 10%", alt:"Her in red lace at a night festival"},
   {id:"gold", pos:"60% 30%", alt:"Her close up in a yellow top"},
   {id:"mirror", pos:"50% 45%", alt:"Her mirror photo in a yellow outfit"},
-  {id:"seal", pos:"45% 60%", alt:"The mark she left on my wrist"},
   {id:"rest", pos:"25% 30%", alt:"Her asleep under a blanket"},
   {id:"ride", pos:"50% 40%", alt:"Her dozing in the car"},
   {id:"us", pos:"50% 50%", alt:"The two of us in the car"}
@@ -160,7 +186,7 @@ const R = [
   ["scarlet","Because you are lovely and a little bit dangerous.","Thou art beautiful, O my love, as Tirzah, comely as Jerusalem, terrible as an army with banners.","6:4"],
   ["scarlet","Because in a crowd of thousands, there is still only you.","My dove, my undefiled is but one.","6:9"],
   ["scarlet","Because anywhere with you turns into a celebration.","He brought me to the banqueting house, and his banner over me was love.","2:4"],
-  ["seal","Because you left your mark on me, and I kept it.","Set me as a seal upon thine heart, as a seal upon thine arm: for love is strong as death.","8:6"],
+  ["us","Because you left your mark on me, and I kept it.","Set me as a seal upon thine heart, as a seal upon thine arm: for love is strong as death.","8:6"],
   ["mirror","Because one look at you and I lose the argument.","Turn away thine eyes from me, for they have overcome me.","6:5"],
   ["mirror","Because you know exactly what you are doing.","Behold, thou art fair, my love; behold, thou art fair.","4:1"],
   ["rest","Because I would guard your sleep from the whole world.","I charge you, O ye daughters of Jerusalem, by the roes, and by the hinds of the field, that ye stir not up, nor awake my love, till he please.","2:7"],
@@ -185,6 +211,7 @@ $("strip").innerHTML = PHOTOS.map(p =>
   `<button type="button" data-pid="${p.id}" aria-pressed="false" aria-label="Show a reason for: ${p.alt}">` +
   `<img src="img/${p.id}.jpg" alt="" loading="lazy" decoding="async" style="object-position:${p.pos}"></button>`
 ).join("");
+$("strip").style.setProperty("--n", PHOTOS.length);
 $("strip").addEventListener("click", e => { const b = e.target.closest("button"); if(b) byPhoto(b.dataset.pid); });
 
 function setPhoto(p){
